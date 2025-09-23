@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="620.0" prefWidth="1120.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.mbouklikha.dev.sae_glacium.controller.Controller">
+   <children>
+      <Pane fx:id="zoneJeu" prefHeight="620.0" prefWidth="1120.0">
+         <children>
+            <TilePane fx:id="tilePaneFond" prefHeight="620.0" prefWidth="1129.0" style="-fx-background-image: url('/fond.jpg');" />
+            <TilePane fx:id="tilePane" prefHeight="620.0" prefWidth="1120.0" />
+            <HBox fx:id="conteneurInventaire" layoutX="10" layoutY="10" spacing="10" visible="false" xmlns:fx="http://javafx.com/fxml" />
+         </children></Pane>
+   </children>
+</AnchorPane>

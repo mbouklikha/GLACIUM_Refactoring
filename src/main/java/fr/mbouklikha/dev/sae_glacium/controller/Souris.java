@@ -17,12 +17,10 @@ public class Souris {
 
     private Sid sid;
     private Terrain terrain;
-    private int TAILLE_BLOC = 32;
     private TerrainVue terrainVue;
     private TilePane tilePane;
-    private Inventaire inventaire;
-    private final int DISTANCE_MAX = 128; // distance maximale autorisée (4 bloc)
-    public boolean peutCasser = false;
+    private final int DISTANCE_MAX = 128;
+    private int TAILLE_BLOC = 32;// distance maximale autorisée (4 bloc)
 
     public Souris(Sid sid, Terrain terrain, TerrainVue terrainVue, TilePane tilePane) {
         this.sid = sid;
@@ -31,32 +29,23 @@ public class Souris {
         this.tilePane = tilePane;
     }
 
-    // Utiliser par les outil ou arme afin de casser ou attaquer
-    private void clic_gauche(int x, int y) {
+    // Méthode pour utiliser l'objet en main
+    private void utiliserObjet(int x, int y, MouseButton bouton) {
         Objets objets = sid.getObjetEnMain();
-        if (objets != null && objets instanceof Outil) {
-            objets.fonction(x, y);
-        }
-        terrainVue.afficherMap(tilePane);
-    }
+        if (objets == null) return;
 
-    // Utiliser par les ressources posable afin d'être poser
-    private void clic_droit(int x, int y) {
-        Objets objets = sid.getObjetEnMain();
-        if (objets != null && objets instanceof Ressource) {
+        if (bouton == MouseButton.PRIMARY && objets instanceof Outil) {
+            objets.fonction(x, y);
+        } else if (bouton == MouseButton.SECONDARY && objets instanceof Ressource) {
             objets.fonction(x, y);
         }
+
         terrainVue.afficherMap(tilePane);
     }
 
 
-    // Gère les clic
-    public void gererClic(MouseEvent event) {
-        int sourisX = (int) event.getX();
-        int sourisY = (int) event.getY();
-        int blocX = sourisX / TAILLE_BLOC;
-        int blocY = sourisY / TAILLE_BLOC;
-
+    // Vérifie si la souris est dans la portée d’action
+    private boolean estDansPortee(int sourisX, int sourisY) {
         int persoX = sid.getX();
         int persoY = sid.getY() + 28;
 
@@ -64,12 +53,20 @@ public class Souris {
         int dy = persoY - sourisY;
         int distanceCarree = dx * dx + dy * dy;
 
-        if (distanceCarree <= DISTANCE_MAX * DISTANCE_MAX) {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                clic_gauche(blocX, blocY);
-            } else if (event.getButton() == MouseButton.SECONDARY) {
-                clic_droit(blocX, blocY);
-            }
+        return distanceCarree <= DISTANCE_MAX * DISTANCE_MAX;
+    }
+
+
+    // Gère les clic
+    public void gererClic(MouseEvent event) {
+        int sourisX = (int) event.getX();
+        int sourisY = (int) event.getY();
+
+        int blocX = sourisX / TAILLE_BLOC;
+        int blocY = sourisY / TAILLE_BLOC;
+
+        if (estDansPortee(sourisX, sourisY)) {
+            utiliserObjet(blocX, blocY, event.getButton());
         }
     }
 

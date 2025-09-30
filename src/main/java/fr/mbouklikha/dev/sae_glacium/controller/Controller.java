@@ -75,6 +75,43 @@ public class Controller {
 
     @FXML
     public void initialize() {
+
+        initialiserEnvironnementActeurs();
+        initialiserInventaire();
+        initialiserTableCraft();
+
+        // --------------------------------------------------------
+
+        // Focus sur les élements du fxml
+        tilePane.setFocusTraversable(false);
+        zoneJeu.setFocusTraversable(true);
+
+        // Utilisation de cela car ne fonctionne pas sans comme nous l'avons vue au cours Sprint1
+        Platform.runLater(() -> {
+            zoneJeu.setOnMouseClicked(event -> souris.gererClic(event));
+            zoneJeu.setOnMouseMoved(event -> {
+                sourisVue.majPositionCurseur(event.getX(), event.getY());
+            });
+
+            zoneJeu.setOnKeyPressed(event -> {
+                touchesActives.add(event.getCode());
+
+                if (event.getCode() == KeyCode.G) {
+                    tableCraftVue.setVisible(!tableCraftVue.isVisible());
+                }
+            });
+
+            zoneJeu.setOnKeyReleased(event -> touchesActives.remove(event.getCode()));
+
+            zoneJeu.requestFocus();
+
+            initAnimation();
+            gameLoop.play();
+        });
+    }
+
+
+    public void initialiserEnvironnementActeurs(){
         this.env = new Environnement(992, 576);
         TerrainVue terrainVue = new TerrainVue(env.getTerrain(), tilePane);
 
@@ -83,8 +120,6 @@ public class Controller {
         souris = new Souris(sid, env.getTerrain(), terrainVue, tilePane);
         sourisVue = new SourisVue(zoneJeu);
         pdvVue = new PointsDeVieVue(zoneJeu, sid);
-
-
 
 
         yeti = new Yeti(env, sid);
@@ -99,24 +134,18 @@ public class Controller {
         env.ajouterActeur(sid);
         env.ajouterActeur(yeti);
         env.ajouterActeur(sorcier);
+    }
 
 
-
-        // -------------------------------------------------------------------------------------------
-
-        // Inventaire
+    public void initialiserInventaire(){
         Inventaire inv = sid.getInventaire();
-        sid.getInventaire().ajouter(new Glace(env.getTerrain(), inv, sid),3);
-        sid.getInventaire().ajouter(new Bois(env.getTerrain(), inv, sid),8);
-
-
-
+        sid.getInventaire().ajouter(new Glace(env.getTerrain(), inv, sid), 3);
+        sid.getInventaire().ajouter(new Bois(env.getTerrain(), inv, sid), 8);
 
         inventaireVue = new InventaireVue(conteneurInventaire, sid);
         inventaireVue.initialiserCases(inv);
         inventaireVue.mettreAJourInventaire(inv);
         conteneurInventaire.setVisible(true);
-
 
         objetEnMainVue = new ObjetEnMainVue(sid);
 
@@ -127,10 +156,10 @@ public class Controller {
         zoneJeu.getChildren().add(objetEnMainVue.getConteneur());
 
         inventaireVue.setObjetEnMainVue(objetEnMainVue);
+    }
 
 
-
-        // Table de Craft
+    public void initialiserTableCraft(){
         tableCraftVue = new TableCraftVue();
         zoneJeu.getChildren().add(tableCraftVue.getConteneur());
         tableCraftVue.getConteneur().setLayoutX(490);
@@ -141,39 +170,11 @@ public class Controller {
         tableCraftVue.getBoutonPioche().setOnAction(e -> tableCraft.crafterPioche());
         tableCraftVue.getBoutonDague().setOnAction(e -> tableCraft.crafterDague());
         tableCraftVue.getBoutonArc().setOnAction(e -> tableCraft.crafterArc());
-
-        // ---------------------------------------------------------------------------------
-
-        // Focus sur les élements du fxml
-        tilePane.setFocusTraversable(false);
-        zoneJeu.setFocusTraversable(true);
-
-
-        // Utilisation de cela car ne fonctionne pas sans comme nous l'avons vue au cours Sprint1
-        Platform.runLater(() -> {
-            zoneJeu.setOnKeyPressed(event -> touchesActives.add(event.getCode()));
-            zoneJeu.setOnKeyReleased(event -> touchesActives.remove(event.getCode()));
-            zoneJeu.setOnMouseClicked(event -> souris.gererClic(event));
-            zoneJeu.setOnMouseMoved(event -> {
-                sourisVue.majPositionCurseur(event.getX(), event.getY());
-            });
-
-            zoneJeu.setOnKeyPressed(event -> {
-                touchesActives.add(event.getCode());
-
-                if (event.getCode() == KeyCode.G) {
-                    boolean isVisible = tableCraftVue.isVisible();
-                    tableCraftVue.setVisible(!isVisible);
-                }
-            });
-
-
-            zoneJeu.requestFocus();
-
-            initAnimation();
-            gameLoop.play();
-        });
     }
+
+
+
+
 
 
     private void initAnimation() {
@@ -193,4 +194,5 @@ public class Controller {
 
         gameLoop.getKeyFrames().add(keyFrame);
     }
+
 }

@@ -96,6 +96,15 @@ public abstract class Acteur {
     public abstract void agir(Set<KeyCode> touches);
     public abstract void appliquerGravite(int[][] map, int tailleBloc);
 
+    public boolean collisionAvecBlocs(Hitbox hitbox, ArrayList<Hitbox> blocsSolides) {
+        for (Hitbox bloc : blocsSolides) {
+            if (hitbox.collisionAvec(bloc)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     public abstract Hitbox getHitbox();

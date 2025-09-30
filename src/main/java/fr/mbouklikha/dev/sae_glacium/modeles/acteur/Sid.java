@@ -98,7 +98,7 @@ public class Sid extends Acteur {
 
         // Tester collision avant de bouger
         hitbox.setPosition(nouvelleX, getY());
-        if (!collisionAvecBlocs(environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitbox, environnement.getTerrain().getHitboxBlocsSolides())) {
             setX(nouvelleX);
         }
         hitbox.setPosition(getX(), getY());
@@ -141,7 +141,7 @@ public class Sid extends Acteur {
         }
 
         hitbox.setPosition(getX(), newY);
-        if (!collisionAvecBlocs(environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitbox, environnement.getTerrain().getHitboxBlocsSolides())) {
             setY(newY);
             hitbox.setPosition(getX(), newY);
         } else {
@@ -163,17 +163,7 @@ public class Sid extends Acteur {
     }
 
 
-    /*
-     * Vérifie si la hitbox de Sid entre en collision avec un des blocs solides.
-    */
-    public boolean collisionAvecBlocs(ArrayList<Hitbox> blocsSolides) {
-        for (Hitbox bloc : blocsSolides) {
-            if (hitbox.collisionAvec(bloc)) {
-                return true; // collision détectée avec un bloc solide
-            }
-        }
-        return false;
-    }
+
 
 
     public Objets getObjetEnMain() {

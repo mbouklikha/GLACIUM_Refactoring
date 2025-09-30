@@ -132,7 +132,7 @@ public class Yeti extends Acteur {
             hitboxYeti.setPosition(getX(), newY);
         } else {
             hitboxYeti.setPosition(getX(), newY);
-            if (!collisionAvecBlocs(environnement.getTerrain().getHitboxBlocsSolides())) {
+            if (!collisionAvecBlocs(hitboxYeti, environnement.getTerrain().getHitboxBlocsSolides())) {
                 setY(newY);
             } else {
                 vitesseY = 0;
@@ -143,15 +143,4 @@ public class Yeti extends Acteur {
 
 
 
-    /*
-     * Vérifie si la hitbox du Yeti entre en collision avec un des blocs solides.
-    */
-    public boolean collisionAvecBlocs(ArrayList<Hitbox> blocsSolides) {
-        for (Hitbox bloc : blocsSolides) {
-            if (hitboxYeti.collisionAvec(bloc)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

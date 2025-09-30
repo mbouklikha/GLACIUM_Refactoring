@@ -89,7 +89,7 @@ public class Sorcier extends Acteur {
         }
 
         hitboxSorcier.setPosition(getX(), newY);
-        if (!collisionAvecBlocs(environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitboxSorcier, environnement.getTerrain().getHitboxBlocsSolides())) {
             setY(newY);
             hitboxSorcier.setPosition(getX(), newY);
         } else {
@@ -111,17 +111,6 @@ public class Sorcier extends Acteur {
     }
 
 
-    /*
-     * Vérifie si la hitbox du sorcier entre en collision avec un bloc solide.
-    */
-    public boolean collisionAvecBlocs(ArrayList<Hitbox> blocsSolides) {
-        for (Hitbox bloc : blocsSolides) {
-            if (hitboxSorcier.collisionAvec(bloc)) {
-                return true; // collision détectée avec un bloc solide
-            }
-        }
-        return false;
-    }
 
     public StringProperty getDirection() {
         return direction;

@@ -86,28 +86,31 @@ public class Controller {
         tilePane.setFocusTraversable(false);
         zoneJeu.setFocusTraversable(true);
 
-        // Utilisation de cela car ne fonctionne pas sans comme nous l'avons vue au cours Sprint1
-        Platform.runLater(() -> {
-            zoneJeu.setOnMouseClicked(event -> souris.gererClic(event));
-            zoneJeu.setOnMouseMoved(event -> {
-                sourisVue.majPositionCurseur(event.getX(), event.getY());
-            });
 
-            zoneJeu.setOnKeyPressed(event -> {
-                touchesActives.add(event.getCode());
-
-                if (event.getCode() == KeyCode.G) {
-                    tableCraftVue.setVisible(!tableCraftVue.isVisible());
-                }
-            });
-
-            zoneJeu.setOnKeyReleased(event -> touchesActives.remove(event.getCode()));
-
-            zoneJeu.requestFocus();
-
-            initAnimation();
-            gameLoop.play();
+        zoneJeu.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                installerListenersClavierSouris();
+                zoneJeu.requestFocus(); // focus clavier sur la zone de jeu
+                initAnimation();
+                gameLoop.play();
+            }
         });
+    }
+
+    private void installerListenersClavierSouris() {
+        // Souris
+        zoneJeu.setOnMouseClicked(event -> souris.gererClic(event));
+        zoneJeu.setOnMouseMoved(event -> sourisVue.majPositionCurseur(event.getX(), event.getY()));
+
+        // Clavier
+        zoneJeu.setOnKeyPressed(event -> {
+            touchesActives.add(event.getCode());
+            if (event.getCode() == KeyCode.G) {
+                tableCraftVue.setVisible(!tableCraftVue.isVisible());
+            }
+        });
+
+        zoneJeu.setOnKeyReleased(event -> touchesActives.remove(event.getCode()));
     }
 
 
@@ -171,8 +174,6 @@ public class Controller {
         tableCraftVue.getBoutonDague().setOnAction(e -> tableCraft.crafterDague());
         tableCraftVue.getBoutonArc().setOnAction(e -> tableCraft.crafterArc());
     }
-
-
 
 
 

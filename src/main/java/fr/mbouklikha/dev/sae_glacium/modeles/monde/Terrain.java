@@ -26,7 +26,6 @@ public class Terrain {
         }
     }
 
-    // Utile si la map change dynamiquement
     public void mettreAJourHitboxBlocsSolides() {
         construireHitboxDepuisMap();
     }

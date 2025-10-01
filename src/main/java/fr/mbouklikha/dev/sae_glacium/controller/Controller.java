@@ -176,21 +176,26 @@ public class Controller {
     }
 
 
+    private void miseAJourJeu() {
+        for (Acteur a : env.getActeurs()) {
+            a.appliquerGravite(env.getTerrain().getMap(), TAILLE_BLOC);
+            a.agir(touchesActives);
+        }
+        temps++;
+    }
+
     private void initAnimation() {
         gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
+
         KeyFrame keyFrame = new KeyFrame(
                 Duration.seconds(0.017), // ≈ 60 FPS
-                ev -> {
-                    for (Acteur a : env.getActeurs()) {
-                        a.appliquerGravite(env.getTerrain().getMap(), TAILLE_BLOC);
-                        a.agir(touchesActives);
-                    }
-                    temps++;
-                }
+                ev -> miseAJourJeu()
         );
+
 
         gameLoop.getKeyFrames().add(keyFrame);
     }
+
 }

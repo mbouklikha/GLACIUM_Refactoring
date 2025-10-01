@@ -93,8 +93,42 @@ public abstract class Acteur {
     }
 
 
-    public abstract void agir(Set<KeyCode> touches);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public abstract void appliquerGravite(int[][] map, int tailleBloc);
+
+    // Étapes communes pour les acteurs (pas gererSaut car utile que pour Sid)
+    protected abstract void gererDeplacement(Set<KeyCode> touches);
+    protected abstract void gererSaut(Set<KeyCode> touches);
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public void agir(Set<KeyCode> touches) {
+        // Pour tous les acteurs
+        gererDeplacement(touches);
+        mettreAJourHitbox();
+
+        // Pour Sid
+        gererRalenti();
+        gererSaut(touches);
+    }
+
+
+    // Étape par défaut (commune)
+    protected void gererRalenti() {
+        // Par défaut, rien, mais pour Sid
+    }
+
+    protected void mettreAJourHitbox() {
+        getHitbox().setPosition(getX(), getY());
+    }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
     public boolean collisionAvecBlocs(Hitbox hitbox, ArrayList<Hitbox> blocsSolides) {
         for (Hitbox bloc : blocsSolides) {

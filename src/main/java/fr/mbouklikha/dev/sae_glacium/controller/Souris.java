@@ -32,16 +32,18 @@ public class Souris {
     // Méthode pour utiliser l'objet en main
     private void utiliserObjet(int x, int y, MouseButton bouton) {
         Objets objets = sid.getObjetEnMain();
-        if (objets == null) return;
 
-        if (bouton == MouseButton.PRIMARY && objets instanceof Outil) {
-            objets.fonction(x, y);
-        } else if (bouton == MouseButton.SECONDARY && objets instanceof Ressource) {
-            objets.fonction(x, y);
+        if (objets != null) {
+            if (bouton == MouseButton.PRIMARY && objets instanceof Outil) {
+                objets.fonction(x, y);
+            } else if (bouton == MouseButton.SECONDARY && objets instanceof Ressource) {
+                objets.fonction(x, y);
+            }
+
+            terrainVue.afficherMap(tilePane);
         }
-
-        terrainVue.afficherMap(tilePane);
     }
+
 
 
     // Vérifie si la souris est dans la portée d’action

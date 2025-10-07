@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class Environnement {
 
+    private static Environnement uniqueInstance = null;
+
     private int width, height;
     private ArrayList<Acteur> acteurs;
     private Terrain terrain;
@@ -15,6 +17,13 @@ public class Environnement {
         this.height = height;
         this.acteurs = new ArrayList<>();
         this.terrain = new Terrain(); // création par défaut
+    }
+
+    public static Environnement getInstance() {
+        if(uniqueInstance == null) {
+            uniqueInstance = new Environnement(992, 576);
+        }
+        return uniqueInstance;
     }
 
 

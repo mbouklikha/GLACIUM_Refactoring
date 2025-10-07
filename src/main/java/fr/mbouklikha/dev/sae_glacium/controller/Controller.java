@@ -115,7 +115,7 @@ public class Controller {
 
 
     public void initialiserEnvironnementActeurs(){
-        this.env = new Environnement(992, 576);
+        this.env = Environnement.getInstance();
         TerrainVue terrainVue = new TerrainVue(env.getTerrain(), tilePane);
 
         sid = new Sid(env);

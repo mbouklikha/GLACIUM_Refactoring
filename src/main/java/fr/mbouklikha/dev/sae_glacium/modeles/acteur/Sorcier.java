@@ -30,22 +30,21 @@ public class Sorcier extends Acteur {
     }
 
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /*
      * Définit le comportement du sorcier à chaque frame en fonction des touches pressées.
      * Le sorcier s'oriente vers Sid, détermine s'il est "occupé" ou "discute" selon la distance.
      * Si la hitbox du sorcier touche Sid, ajoute un éclat de feu à l'inventaire de Sid s'il n'en a pas déjà.
     */
     @Override
-    public void agir(Set<KeyCode> touches) {
+    protected void gererDeplacement(Set<KeyCode> touches) {
         int dx = sid.getX() - getX();
         EclatFeu feu = new EclatFeu(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
 
         // Orientation graphique
-        if (dx > 0) {
-            orientation.set("droite");
-        } else {
-            orientation.set("gauche");
-        }
+        orientation.set(dx > 0 ? "droite" : "gauche");
 
         // Logique "discute" vs "occupe"
         if (Math.abs(dx) > 50) {
@@ -56,15 +55,28 @@ public class Sorcier extends Acteur {
             direction.set("occupe");
         }
 
-        if(sid.getHitbox().collisionAvec(this.hitboxSorcier)){
-            if(!sid.getInventaire().aAssez(feu,1)){
-                sid.getInventaire().ajouter(feu,1);
-            }else{
+        // Ajouter l’objet si la hitbox touche Sid
+        if (sid.getHitbox().collisionAvec(hitboxSorcier)) {
+            if (!sid.getInventaire().aAssez(feu, 1)) {
+                sid.getInventaire().ajouter(feu, 1);
+            } else {
                 System.out.println("déjà récolté");
             }
-
         }
     }
+
+    @Override
+    protected void gererSaut(Set<KeyCode> touches) {
+        // Sorcier ne saute jamais
+    }
+
+    @Override
+    protected void gererRalenti() {
+        // Inutile car le Sorcier n’a pas de ralenti
+    }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /*
@@ -89,7 +101,7 @@ public class Sorcier extends Acteur {
         }
 
         hitboxSorcier.setPosition(getX(), newY);
-        if (!collisionAvecBlocs(environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitboxSorcier, environnement.getTerrain().getHitboxBlocsSolides())) {
             setY(newY);
             hitboxSorcier.setPosition(getX(), newY);
         } else {
@@ -111,17 +123,6 @@ public class Sorcier extends Acteur {
     }
 
 
-    /*
-     * Vérifie si la hitbox du sorcier entre en collision avec un bloc solide.
-    */
-    public boolean collisionAvecBlocs(ArrayList<Hitbox> blocsSolides) {
-        for (Hitbox bloc : blocsSolides) {
-            if (hitboxSorcier.collisionAvec(bloc)) {
-                return true; // collision détectée avec un bloc solide
-            }
-        }
-        return false;
-    }
 
     public StringProperty getDirection() {
         return direction;

@@ -48,71 +48,88 @@ public class Yeti extends Acteur {
     }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /*
      * Gère le comportement du Yeti selon la position de Sid et son état.
      * Si Sid est hors de portée verticale, le Yeti reste immobile.
      * Si Sid est proche horizontalement, le Yeti attaque et inflige des dégâts périodiques,
      * en ralentissant Sid.
      * Sinon, le Yeti se déplace horizontalement vers Sid en évitant les collisions.
-    */
-    public void agir(Set<KeyCode> touches) {
-        if (getPv() < 0 || sid == null || !sid.estVivant()) {
+     */
+
+
+    @Override
+    protected void gererDeplacement(Set<KeyCode> touches) {
+        if (!estEnCombatValide()) {
             setDirection("immobile");
             frappeEnCours = false;
-        } else {
+            return;
+        }
 
         int dx = sid.getX() - getX();
         int dy = sid.getY() - getY();
 
         if (Math.abs(dy) > 50) {
-            frappeEnCours = false;
-            setDirection("immobile");
+            resterImmobile();
         } else if (Math.abs(dx) <= 20) {
-            frappeEnCours = true;
-            setDirection(dx > 0 ? "droite" : "gauche");
-            sid.setEstRalenti(true);
-
-            if(compteurDegats == 0){
-                sid.decrementerPv(5);
-            }
-
-            compteurDegats ++;
-
-            if(compteurDegats >= 30) {
-                sid.decrementerPv(5);
-                compteurDegats = 0;
-            }
-
+            attaquer(dx);
         } else if (Math.abs(dx) <= 180) {
-            frappeEnCours = false;
-            int deplacementX = (dx > 0 ? VITESSE_X : -VITESSE_X);
-
-            // Collision latérale comme pour Sid
-            hitboxYeti.setPosition(getX() + deplacementX, getY());
-            boolean collision = false;
-            for (Hitbox bloc : environnement.getTerrain().getHitboxBlocsSolides()) {
-                if (hitboxYeti.collisionAvec(bloc)) {
-                    collision = true;
-                    break;
-                }
-            }
-
-            if (!collision) {
-                setX(getX() + deplacementX);
-            }
-
-            setDirection(dx > 0 ? "droite" : "gauche");
-            hitboxYeti.setPosition(getX(), getY());
+            seDeplacerVersSid(dx);
         } else {
-            frappeEnCours = false;
-            setDirection("immobile");
-            }
+            resterImmobile();
         }
-
-        // Mise à jour finale de la hitbox
-        hitboxYeti.setPosition(getX(), getY());
     }
 
+    private boolean estEnCombatValide() {
+        return getPv() > 0 && sid != null && sid.estVivant();
+    }
+
+
+    private void resterImmobile() {
+        frappeEnCours = false;
+        setDirection("immobile");
+    }
+
+
+    private void attaquer(int dx) {
+        frappeEnCours = true;
+        setDirection(dx > 0 ? "droite" : "gauche");
+        sid.setEstRalenti(true);
+
+        if (compteurDegats == 0) {
+            sid.decrementerPv(5);
+        }
+
+        compteurDegats++;
+        if (compteurDegats >= 30) {
+            sid.decrementerPv(5);
+            compteurDegats = 0;
+        }
+    }
+
+
+    private void seDeplacerVersSid(int dx) {
+        frappeEnCours = false;
+        int deplacementX = (dx > 0 ? VITESSE_X : -VITESSE_X);
+
+        hitboxYeti.setPosition(getX() + deplacementX, getY());
+        boolean collision = collisionAvecBlocs(hitboxYeti, environnement.getTerrain().getHitboxBlocsSolides());
+
+        if (!collision) {
+            setX(getX() + deplacementX);
+        }
+
+        setDirection(dx > 0 ? "droite" : "gauche");
+    }
+
+
+    protected void gererSaut(Set<KeyCode> touches) {
+        // Inutile ici car le Yeti ne saute jamais, donc rien à faire
+    }
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     /*
@@ -132,7 +149,7 @@ public class Yeti extends Acteur {
             hitboxYeti.setPosition(getX(), newY);
         } else {
             hitboxYeti.setPosition(getX(), newY);
-            if (!collisionAvecBlocs(environnement.getTerrain().getHitboxBlocsSolides())) {
+            if (!collisionAvecBlocs(hitboxYeti, environnement.getTerrain().getHitboxBlocsSolides())) {
                 setY(newY);
             } else {
                 vitesseY = 0;
@@ -143,15 +160,4 @@ public class Yeti extends Acteur {
 
 
 
-    /*
-     * Vérifie si la hitbox du Yeti entre en collision avec un des blocs solides.
-    */
-    public boolean collisionAvecBlocs(ArrayList<Hitbox> blocsSolides) {
-        for (Hitbox bloc : blocsSolides) {
-            if (hitboxYeti.collisionAvec(bloc)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

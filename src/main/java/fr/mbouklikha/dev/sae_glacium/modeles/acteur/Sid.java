@@ -72,52 +72,66 @@ public class Sid extends Acteur {
     }
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /*
      * Fait agir Sid en fonction des touches pressées.
      * Gère déplacement horizontal, saut, et collisions.
     */
-    @Override
-    public void agir(Set<KeyCode> touches) {
-        int nouvelleX = getX();
 
-        if (finRalenti == 240) {
-            finRalenti = 0;
-            setEstRalenti(false);
-        }
-
-        if (touches.contains(KeyCode.D)) {
-            nouvelleX = getX() + (isEstRalenti() ? 2 : 4);
-            setDirection("droite");
-            if (isEstRalenti()) finRalenti++;
-        }
-        if (touches.contains(KeyCode.Q)) {
-            nouvelleX = getX() - (isEstRalenti() ? 2 : 4);
-            setDirection("gauche");
-            if (isEstRalenti()) finRalenti++;
-        }
-
-        // Tester collision avant de bouger
-        hitbox.setPosition(nouvelleX, getY());
-        if (!collisionAvecBlocs(environnement.getTerrain().getHitboxBlocsSolides())) {
-            setX(nouvelleX);
-        }
-        hitbox.setPosition(getX(), getY());
-
-        if (touches.contains(KeyCode.SPACE)) {
-            if (!enSaut && !aDejaSaute) {
-                vitesseY = SAUT_FORCE;
-                enSaut = true;
-                aDejaSaute = true; // on empêche le saut tant que la touche est enfoncée
+        @Override
+        protected void gererRalenti() {
+            if (finRalenti == 240) {
+                finRalenti = 0;
+                setEstRalenti(false);
             }
-        } else {
-            aDejaSaute = false; // la touche a été relâchée
+        }
+
+        @Override
+        protected void gererDeplacement(Set<KeyCode> touches) {
+            int nouvelleX = getX();
+
+            if (touches.contains(KeyCode.D)) {
+                nouvelleX = getX() + vitesseSelonEtat();
+                setDirection("droite");
+                incrementerRalentiSiBesoin();
+            }
+            if (touches.contains(KeyCode.Q)) {
+                nouvelleX = getX() - vitesseSelonEtat();
+                setDirection("gauche");
+                incrementerRalentiSiBesoin();
+            }
+
+            hitbox.setPosition(nouvelleX, getY());
+            if (!collisionAvecBlocs(hitbox, environnement.getTerrain().getHitboxBlocsSolides())) {
+                setX(nouvelleX);
+            }
+        }
+
+        @Override
+        protected void gererSaut(Set<KeyCode> touches) {
+            if (touches.contains(KeyCode.SPACE)) {
+                if (!enSaut && !aDejaSaute) {
+                    vitesseY = SAUT_FORCE;
+                    enSaut = true;
+                    aDejaSaute = true;
+                }
+            } else {
+                aDejaSaute = false;
+            }
+        }
+
+        private int vitesseSelonEtat() {
+            return isEstRalenti() ? 2 : 4;
+        }
+
+        private void incrementerRalentiSiBesoin() {
+            if (isEstRalenti()) finRalenti++;
         }
 
 
-        // Met à jour la position de la hitbox
-        hitbox.setPosition(getX(), getY());
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    }
 
 
     /*
@@ -141,7 +155,7 @@ public class Sid extends Acteur {
         }
 
         hitbox.setPosition(getX(), newY);
-        if (!collisionAvecBlocs(environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitbox, environnement.getTerrain().getHitboxBlocsSolides())) {
             setY(newY);
             hitbox.setPosition(getX(), newY);
         } else {
@@ -163,17 +177,7 @@ public class Sid extends Acteur {
     }
 
 
-    /*
-     * Vérifie si la hitbox de Sid entre en collision avec un des blocs solides.
-    */
-    public boolean collisionAvecBlocs(ArrayList<Hitbox> blocsSolides) {
-        for (Hitbox bloc : blocsSolides) {
-            if (hitbox.collisionAvec(bloc)) {
-                return true; // collision détectée avec un bloc solide
-            }
-        }
-        return false;
-    }
+
 
 
     public Objets getObjetEnMain() {

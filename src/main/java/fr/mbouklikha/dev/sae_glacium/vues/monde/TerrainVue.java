@@ -13,8 +13,8 @@ public class TerrainVue {
     private Image glaceImage;
     private Image neigeImage;
 
-    public TerrainVue(Terrain terrain, TilePane tilePane) {
-        this.terrain = terrain;
+    public TerrainVue(TilePane tilePane) {
+        this.terrain = Terrain.getInstance();
         this.neigeImage = new Image(getClass().getResourceAsStream("/fr/mbouklikha/dev/sae_glacium/images/map/neige.png"));
         this.glaceImage = new Image(getClass().getResourceAsStream("/fr/mbouklikha/dev/sae_glacium/images/map/glace.png"));
         afficherMap(tilePane);

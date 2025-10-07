@@ -6,12 +6,20 @@ import fr.mbouklikha.dev.sae_glacium.modeles.Hitbox;
 import java.util.ArrayList;
 
 public class Terrain {
+    private static Terrain uniqueInstance = null;
     private ArrayList<Hitbox> hitboxBlocsSolides;
     public static final int TAILLE_BLOC = 32;
 
-    public Terrain() {
+    private Terrain() {
         this.hitboxBlocsSolides = new ArrayList<>();
         construireHitboxDepuisMap();
+    }
+
+    public static Terrain getInstance() {
+        if (uniqueInstance == null) {
+            uniqueInstance = new Terrain();
+        }
+        return uniqueInstance;
     }
 
     // Méthode privée factorisée

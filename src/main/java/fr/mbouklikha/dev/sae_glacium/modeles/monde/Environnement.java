@@ -14,7 +14,7 @@ public class Environnement {
         this.width = width;
         this.height = height;
         this.acteurs = new ArrayList<>();
-        this.terrain = new Terrain(); // création par défaut
+        this.terrain = Terrain.getInstance(); // création par défaut
     }
 
 

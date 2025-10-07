@@ -27,6 +27,7 @@ public class Sorcier extends Acteur {
         this.environnement = env;
         this.sid = sid;
         this.hitboxSorcier = new Hitbox(getX(), getY(), 45, 62);
+        this.setStrategieDeplacement(new DeplacementIA());
     }
 
 

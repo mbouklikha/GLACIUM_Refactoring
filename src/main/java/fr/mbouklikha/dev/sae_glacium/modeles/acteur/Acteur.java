@@ -18,6 +18,8 @@ public abstract class Acteur {
     private IntegerProperty x, y;
     protected boolean enSaut = false;
 
+    protected StrategieDeplacement strategieDeplacement;
+
     public Acteur(String nom, int pv, int x, int y, Environnement environnement) {
         this.nom = nom;
         this.x = new SimpleIntegerProperty(x);
@@ -79,6 +81,11 @@ public abstract class Acteur {
     }
 
 
+    public void setStrategieDeplacement(StrategieDeplacement strategie) {
+        this.strategieDeplacement = strategie;
+    }
+
+
 
     public void decrementerPv(int n) {
         this.pv.set(getPv() - n);
@@ -106,11 +113,10 @@ public abstract class Acteur {
 
 
     public void agir(Set<KeyCode> touches) {
-        // Pour tous les acteurs
-        gererDeplacement(touches);
-        mettreAJourHitbox();
+        if (strategieDeplacement != null)
+            strategieDeplacement.deplacer(this, touches);
 
-        // Pour Sid
+        mettreAJourHitbox();
         gererRalenti();
         gererSaut(touches);
     }

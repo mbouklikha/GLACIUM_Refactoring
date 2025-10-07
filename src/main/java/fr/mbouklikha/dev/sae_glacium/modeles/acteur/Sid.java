@@ -34,6 +34,7 @@ public class Sid extends Acteur {
         this.environnement = env;
         this.hitbox = new Hitbox(getX(), getY(), 25, 55); // taille du perso
         this.inventaire = new Inventaire();
+        this.setStrategieDeplacement(new DeplacementJoueur());
 
     }
 

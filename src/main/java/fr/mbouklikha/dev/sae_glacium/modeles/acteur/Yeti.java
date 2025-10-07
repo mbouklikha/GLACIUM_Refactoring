@@ -27,6 +27,7 @@ public class Yeti extends Acteur {
         this.sid = sid;
         this.environnement = env;
         this.hitboxYeti = new Hitbox(getX(), getY(), 60, 60);
+        this.setStrategieDeplacement(new DeplacementIA());
     }
 
     @Override

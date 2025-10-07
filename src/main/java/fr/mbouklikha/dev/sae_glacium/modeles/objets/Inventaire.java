@@ -19,7 +19,15 @@ public class Inventaire {
         return items;
     }
 
-
+    // Méthode privée pour retrouver un item existant
+    private Item trouverItem(Objets objet) {
+        for (Item item : items) {
+            if (item.getNom().equals(objet.getNom())) {
+                return item;
+            }
+        }
+        return null;
+    }
 
 
     /*
@@ -27,20 +35,13 @@ public class Inventaire {
      * Si l'objet est déjà présent, augmente sa quantité de 1.
     */
     public void ajouterItem(Objets objetAAjouter) {
-        boolean trouve = false;
-        for (Item item : items) {
-            if (item.getNom().equals(objetAAjouter.getNom())) {
-                item.ajouter(1);
-                trouve = true;
-                break;
-            }
-        }
-
-        if (!trouve) {
+        Item item = trouverItem(objetAAjouter);
+        if (item != null) {
+            item.ajouter(1);
+        } else {
             items.add(objetAAjouter.creerItem());
         }
     }
-
 
 
     /*
@@ -48,14 +49,11 @@ public class Inventaire {
      * Si la quantité atteint 0, supprime l'objet de l'inventaire.
     */
     public void retirerUnItem(Objets objetARetirer) {
-        for (Item item : items) {
-            if (item.getNom().equals(objetARetirer.getNom())) {
-                item.getQuantite().set(item.getQuantite().get() - 1);
-                if (item.getQuantite().get() <= 0) {
-                    item.supprimer(items);
-                }
-                break;
-            }
+        Item item = trouverItem(objetARetirer);
+        if(item != null){
+            item.getQuantite().set(item.getQuantite().get() - 1);
+        }   if (item.getQuantite().get() <= 0) {
+            item.supprimer(items);
         }
     }
 
@@ -65,12 +63,7 @@ public class Inventaire {
      * Vérifie si l'inventaire contient un objet donné.
     */
     public boolean contient(Objets objet) {
-        for (Item item : items) {
-            if (item.getObjet().equals(objet)) {
-                return true;
-            }
-        }
-        return false;
+        return trouverItem(objet) != null;
     }
 
 
@@ -79,12 +72,8 @@ public class Inventaire {
      * Vérifie si l'inventaire possède au moins une certaine quantité d'un objet.
     */
     public boolean aAssez(Objets objet, int quantiteRequise) {
-        for (Item item : items) {
-            if (item.getNom().equals(objet.getNom())) {
-                return item.getQuantite().get() >= quantiteRequise;
-            }
-        }
-        return false;
+        Item item = trouverItem(objet);
+        return item != null && item.getQuantite().get() >= quantiteRequise;
     }
 
 
@@ -95,15 +84,10 @@ public class Inventaire {
      * Sinon, crée un nouvel item avec cette quantité.
     */
     public void ajouter(Objets objetAAjouter, int quantite) {
-        boolean trouve = false;
-        for (Item item : items) {
-            if (item.getNom().equals(objetAAjouter.getNom())) {
-                item.ajouter(quantite);
-                trouve = true;
-                break;
-            }
-        }
-        if (!trouve) {
+        Item item = trouverItem(objetAAjouter);
+        if (item != null) {
+            item.ajouter(quantite);
+        } else {
             items.add(new Item(objetAAjouter, quantite));
         }
     }
@@ -117,16 +101,13 @@ public class Inventaire {
      * Sinon, met à jour la quantité.
     */
     public void retirer(Objets objetARetirer, int quantite) {
-        for (Item item : items) {
-            if (item.getNom().equals(objetARetirer.getNom())) {
-                int actuelle = item.getQuantite().get();
-                int nouvelleQuantite = actuelle - quantite;
-                if (nouvelleQuantite <= 0) {
-                    item.supprimer(items);
-                } else {
-                    item.getQuantite().set(nouvelleQuantite);
-                }
-                break;
+        Item item = trouverItem(objetARetirer);
+        if (item != null) {
+            int nouvelleQuantite = item.getQuantite().get() - quantite;
+            if (nouvelleQuantite <= 0) {
+                item.supprimer(items);
+            } else {
+                item.getQuantite().set(nouvelleQuantite);
             }
         }
     }

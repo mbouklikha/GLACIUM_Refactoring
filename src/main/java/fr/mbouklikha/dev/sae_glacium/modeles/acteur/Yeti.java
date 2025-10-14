@@ -59,7 +59,6 @@ public class Yeti extends Acteur {
      */
 
 
-    @Override
     protected void gererDeplacement(Set<KeyCode> touches) {
         if (!estEnCombatValide()) {
             setDirection("immobile");
@@ -81,15 +80,6 @@ public class Yeti extends Acteur {
         }
     }
 
-    private boolean estEnCombatValide() {
-        return getPv() > 0 && sid != null && sid.estVivant();
-    }
-
-
-    private void resterImmobile() {
-        frappeEnCours = false;
-        setDirection("immobile");
-    }
 
 
     private void attaquer(int dx) {
@@ -123,10 +113,18 @@ public class Yeti extends Acteur {
         setDirection(dx > 0 ? "droite" : "gauche");
     }
 
-
-    protected void gererSaut(Set<KeyCode> touches) {
-        // Inutile ici car le Yeti ne saute jamais, donc rien à faire
+    private boolean estEnCombatValide() {
+        return getPv() > 0 && sid != null && sid.estVivant();
     }
+
+
+    private void resterImmobile() {
+        frappeEnCours = false;
+        setDirection("immobile");
+    }
+
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

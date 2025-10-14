@@ -95,24 +95,12 @@ public abstract class Acteur {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public abstract void appliquerGravite(int[][] map, int tailleBloc);
-
-    // Étapes communes pour les acteurs (pas gererSaut car utile que pour Sid)
-    protected abstract void gererDeplacement(Set<KeyCode> touches);
-    protected abstract void gererSaut(Set<KeyCode> touches);
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     public void agir(Set<KeyCode> touches) {
-        // Pour tous les acteurs
-        gererDeplacement(touches);
-        mettreAJourHitbox();
 
-        // Pour Sid
-        gererRalenti();
-        gererSaut(touches);
     }
 
 

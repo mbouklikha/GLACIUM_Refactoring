@@ -20,11 +20,11 @@ public class Sid extends Acteur {
     private Objets objetEnMain = null;
 
     private final double GRAVITE = 0.4;
-    private final double SAUT_FORCE = -8;
-    private double vitesseY = 0;
-    private boolean aDejaSaute = false;
+    protected final double SAUT_FORCE = -8;
+    protected double vitesseY = 0;
+    protected boolean aDejaSaute = false;
     private Inventaire inventaire;
-    private int finRalenti;
+    protected int finRalenti;
     private Hitbox hitbox;
     private Environnement environnement;
 
@@ -79,16 +79,7 @@ public class Sid extends Acteur {
      * Gère déplacement horizontal, saut, et collisions.
     */
 
-        @Override
-        protected void gererRalenti() {
-            if (finRalenti == 240) {
-                finRalenti = 0;
-                setEstRalenti(false);
-            }
-        }
-
-        @Override
-        protected void gererDeplacement(Set<KeyCode> touches) {
+        private void gererDeplacement(Set<KeyCode> touches){
             int nouvelleX = getX();
 
             if (touches.contains(KeyCode.D)) {
@@ -102,31 +93,47 @@ public class Sid extends Acteur {
                 incrementerRalentiSiBesoin();
             }
 
-            hitbox.setPosition(nouvelleX, getY());
-            if (!collisionAvecBlocs(hitbox, environnement.getTerrain().getHitboxBlocsSolides())) {
+            getHitbox().setPosition(nouvelleX, getY());
+            if (!collisionAvecBlocs(getHitbox(), getEnvironnement().getTerrain().getHitboxBlocsSolides())) {
                 setX(nouvelleX);
-            }
+            } // utilise sa logique
+
         }
 
-        @Override
-        protected void gererSaut(Set<KeyCode> touches) {
+        private void gererSaut(Set<KeyCode> touches){
             if (touches.contains(KeyCode.SPACE)) {
                 if (!enSaut && !aDejaSaute) {
                     vitesseY = SAUT_FORCE;
                     enSaut = true;
                     aDejaSaute = true;
+                } else {
+                    aDejaSaute = false;
                 }
-            } else {
-                aDejaSaute = false;
             }
         }
 
-        private int vitesseSelonEtat() {
+        private void gererRalenti(Set<KeyCode> touches){
+            if (finRalenti == 240) {
+                finRalenti = 0;
+                setEstRalenti(false);
+            }
+        }
+
+        protected int vitesseSelonEtat() {
             return isEstRalenti() ? 2 : 4;
         }
 
-        private void incrementerRalentiSiBesoin() {
+        protected void incrementerRalentiSiBesoin() {
             if (isEstRalenti()) finRalenti++;
+        }
+
+
+        ////////////////////////////////////////////////////////
+
+        public void comportement(Set<KeyCode> touches){
+            gererDeplacement(touches);
+            gererSaut(touches);
+            gererRalenti(touches);
         }
 
 

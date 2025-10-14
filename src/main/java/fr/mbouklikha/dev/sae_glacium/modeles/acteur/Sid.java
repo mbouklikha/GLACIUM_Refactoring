@@ -34,6 +34,7 @@ public class Sid extends Acteur {
         this.environnement = env;
         this.hitbox = new Hitbox(getX(), getY(), 25, 55); // taille du perso
         this.inventaire = new Inventaire();
+        this.strategieDeplacement = new DeplacementJoueur();
 
     }
 
@@ -79,7 +80,7 @@ public class Sid extends Acteur {
      * Gère déplacement horizontal, saut, et collisions.
     */
 
-        private void gererDeplacement(Set<KeyCode> touches){
+        private void deplacement(Set<KeyCode> touches){
             int nouvelleX = getX();
 
             if (touches.contains(KeyCode.D)) {
@@ -112,7 +113,7 @@ public class Sid extends Acteur {
             }
         }
 
-        private void gererRalenti(Set<KeyCode> touches){
+        private void gererRalenti(){
             if (finRalenti == 240) {
                 finRalenti = 0;
                 setEstRalenti(false);
@@ -130,10 +131,11 @@ public class Sid extends Acteur {
 
         ////////////////////////////////////////////////////////
 
-        public void comportement(Set<KeyCode> touches){
-            gererDeplacement(touches);
+        @Override
+        public void gererDeplacement(Set<KeyCode> touches){
+            deplacement(touches);
             gererSaut(touches);
-            gererRalenti(touches);
+            gererRalenti();
         }
 
 

@@ -27,6 +27,7 @@ public class Sorcier extends Acteur {
         this.environnement = env;
         this.sid = sid;
         this.hitboxSorcier = new Hitbox(getX(), getY(), 45, 62);
+        this.strategieDeplacement = new DeplacementIA();
     }
 
 
@@ -38,8 +39,9 @@ public class Sorcier extends Acteur {
      * Le sorcier s'oriente vers Sid, détermine s'il est "occupé" ou "discute" selon la distance.
      * Si la hitbox du sorcier touche Sid, ajoute un éclat de feu à l'inventaire de Sid s'il n'en a pas déjà.
     */
+
     @Override
-    protected void gererDeplacement(Set<KeyCode> touches) {
+    public void gererDeplacement(Set<KeyCode> touches) {
         int dx = sid.getX() - getX();
         EclatFeu feu = new EclatFeu(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
 
@@ -65,15 +67,6 @@ public class Sorcier extends Acteur {
         }
     }
 
-    @Override
-    protected void gererSaut(Set<KeyCode> touches) {
-        // Sorcier ne saute jamais
-    }
-
-    @Override
-    protected void gererRalenti() {
-        // Inutile car le Sorcier n’a pas de ralenti
-    }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

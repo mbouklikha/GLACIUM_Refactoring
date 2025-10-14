@@ -27,6 +27,7 @@ public class Yeti extends Acteur {
         this.sid = sid;
         this.environnement = env;
         this.hitboxYeti = new Hitbox(getX(), getY(), 60, 60);
+        this.strategieDeplacement = new DeplacementIA();
     }
 
     @Override
@@ -58,8 +59,8 @@ public class Yeti extends Acteur {
      * Sinon, le Yeti se déplace horizontalement vers Sid en évitant les collisions.
      */
 
-
-    protected void gererDeplacement(Set<KeyCode> touches) {
+    @Override
+    public void gererDeplacement(Set<KeyCode> touches) {
         if (!estEnCombatValide()) {
             setDirection("immobile");
             frappeEnCours = false;

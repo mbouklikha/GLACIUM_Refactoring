@@ -1,12 +1,9 @@
 package fr.mbouklikha.dev.sae_glacium.controller;
 
-import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
-import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sorcier;
-import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Yeti;
+import fr.mbouklikha.dev.sae_glacium.modeles.acteur.*;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.*;
-import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Acteur;
 import fr.mbouklikha.dev.sae_glacium.vues.PointsDeVieVue;
 import fr.mbouklikha.dev.sae_glacium.vues.SourisVue;
 import fr.mbouklikha.dev.sae_glacium.vues.acteur.SidVue;
@@ -119,6 +116,7 @@ public class Controller {
         TerrainVue terrainVue = new TerrainVue(tilePane);
 
         sid = new Sid(env);
+
         sidVue = new SidVue(sid, zoneJeu);
         souris = new Souris(sid, env.getTerrain(), terrainVue, tilePane);
         sourisVue = new SourisVue(zoneJeu);

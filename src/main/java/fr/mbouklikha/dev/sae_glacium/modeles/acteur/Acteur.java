@@ -18,6 +18,8 @@ public abstract class Acteur {
     private IntegerProperty x, y;
     protected boolean enSaut = false;
 
+    protected StrategieDeplacement strategieDeplacement;
+
     public Acteur(String nom, int pv, int x, int y, Environnement environnement) {
         this.nom = nom;
         this.x = new SimpleIntegerProperty(x);
@@ -95,19 +97,21 @@ public abstract class Acteur {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public abstract void appliquerGravite(int[][] map, int tailleBloc);
+    public abstract void gererDeplacement(Set<KeyCode> touches);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     public void agir(Set<KeyCode> touches) {
+        if(strategieDeplacement != null)
+            strategieDeplacement.deplacer(this,touches);
 
+
+        mettreAJourHitbox();
     }
 
 
-    // Étape par défaut (commune)
-    protected void gererRalenti() {
-        // Par défaut, rien, mais pour Sid
-    }
 
     protected void mettreAJourHitbox() {
         getHitbox().setPosition(getX(), getY());

@@ -21,7 +21,7 @@ class YetiTest {
     @BeforeEach
     public void setup() throws Exception {
         // Création d'un environnement minimal avec terrain vide (pas de blocs solides)
-        environnement = new Environnement(992, 576);
+        environnement = Environnement.getInstance();
 
         // Création d'un Sid positionné
         sid = new Sid(environnement);

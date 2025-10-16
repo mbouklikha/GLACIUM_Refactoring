@@ -19,7 +19,7 @@ class InventaireTest {
     public void setUp() throws Exception  {
         // Initialisation avant chaque test : inventaire vide, environnement et joueur Sid
         inventaire = new Inventaire();
-        env = new Environnement(992, 576);
+        env = Environnement.getInstance();
         sid = new Sid(env);
 
         // Création de deux objets test : glace et bois

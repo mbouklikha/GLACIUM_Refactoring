@@ -3,6 +3,7 @@ package fr.mbouklikha.dev.sae_glacium.modeles.acteur;
 import fr.mbouklikha.dev.sae_glacium.modeles.Hitbox;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.EclatFeu;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.PotionSoin;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;
@@ -44,6 +45,7 @@ public class Sorcier extends Acteur {
     public void gererDeplacement(Set<KeyCode> touches) {
         int dx = sid.getX() - getX();
         EclatFeu feu = new EclatFeu(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
+        PotionSoin potionSoin = new PotionSoin(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
 
         // Orientation graphique
         orientation.set(dx > 0 ? "droite" : "gauche");
@@ -61,6 +63,9 @@ public class Sorcier extends Acteur {
         if (sid.getHitbox().collisionAvec(hitboxSorcier)) {
             if (!sid.getInventaire().aAssez(feu, 1)) {
                 sid.getInventaire().ajouter(feu, 1);
+            }
+            else if (!sid.getInventaire().contient(potionSoin)) {
+                sid.getInventaire().ajouter(potionSoin, 1);
             } else {
                 System.out.println("déjà récolté");
             }

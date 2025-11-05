@@ -4,6 +4,7 @@ import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.Inventaire;
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.Item;
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.Objets;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.PotionSoin;
 import javafx.beans.binding.Bindings;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
@@ -60,7 +61,11 @@ public class InventaireVue {
                     Item nouvelItem = inventaire.getItems().get(index);
                     Objets nouvelObjet = nouvelItem.getObjet();
 
-                    Objets ancienObjet = sid.getObjetEnMain();
+                    // Si c'est une potion de soin, on l'utilise directement
+                    if (nouvelObjet instanceof PotionSoin) {
+                        nouvelObjet.fonction(0, 0);
+                    } else {
+                        Objets ancienObjet = sid.getObjetEnMain();
                     if (ancienObjet == null || !ancienObjet.equals(nouvelObjet)) {
                         if (ancienObjet != null) {
                             inventaire.ajouterItem(ancienObjet);
@@ -68,6 +73,7 @@ public class InventaireVue {
                         sid.setObjetEnMain(nouvelObjet);
                         inventaire.retirerUnItem(nouvelObjet);
                         objetEnMainVue.mettreAJour();  // MAJ de l'objet en main
+                    }
                     }
                 }
             });
@@ -100,6 +106,7 @@ public class InventaireVue {
                 Item item = inventaire.getItems().get(i);
 
                 String nomImage = item.getObjet().getNom().toLowerCase();
+                System.out.println(nomImage);
                 Image image = new Image(getClass().getResourceAsStream("/fr/mbouklikha/dev/sae_glacium/images/item/" + nomImage + ".png"));
                 images[i].setImage(image);
                 quantites[i].textProperty().bind(Bindings.convert(item.getQuantite()));

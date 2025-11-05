@@ -15,6 +15,7 @@ public class TableCraftVue {
     private Button boutonPioche;
     private Button boutonDague;
     private Button boutonArc;
+    private Button boutonMarteau;
 
     public TableCraftVue() {
         conteneur = new VBox(10);
@@ -38,12 +39,18 @@ public class TableCraftVue {
         imageArc.setFitWidth(32);
         imageArc.setFitHeight(32);
 
+        ImageView imageMarteau = new ImageView(new Image(getClass().getResourceAsStream("/fr/mbouklikha/dev/sae_glacium/images/item/marteau.png")));
+        imageArc.setFitWidth(32);
+        imageArc.setFitHeight(32);
+
         // ✅ Boutons avec image (et texte si tu veux)
         boutonPioche = new Button("", imagePioche); // texte vide + image
         boutonDague = new Button("", imageDague);
         boutonArc = new Button("", imageArc);
+        boutonMarteau = new Button("", imageMarteau);
 
-        ligneCraft.getChildren().addAll(boutonPioche, boutonDague, boutonArc);
+
+        ligneCraft.getChildren().addAll(boutonPioche, boutonDague, boutonArc, boutonMarteau);
         conteneur.getChildren().addAll(ligneCraft);
     }
 
@@ -69,5 +76,9 @@ public class TableCraftVue {
 
     public Button getBoutonArc() {
         return boutonArc;
+    }
+
+    public Button getBoutonMarteau() {
+        return boutonMarteau;
     }
 }

@@ -83,5 +83,38 @@ public class TableCraft {
         }
     }
 
+    /*
+     * Crée un marteau de feu si l'inventaire contient au moins :
+     * 1 éclat de feu, 10 glace, 10 neige et 3 bois.
+     * Si les conditions sont remplies, le marteau est ajouté à l’inventaire
+     * et les ressources sont retirées.
+     */
+    public void crafterMarteauDeFeu() {
+        EclatFeu feu = new EclatFeu(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
+        Glace glace = new Glace(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
+        Neige neige = new Neige(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
+        Bois bois = new Bois(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
+
+        if (sid.getInventaire().aAssez(feu, 1) && sid.getInventaire().aAssez(glace, 10) && sid.getInventaire().aAssez(bois, 3) && sid.getInventaire().aAssez(neige, 10)) {
+            System.out.println("On peut crafter le marteau de feu !");
+            sid.getInventaire().ajouterItem(new MarteauDeFeu(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid));
+            sid.getInventaire().retirer(feu, 1);
+            sid.getInventaire().retirer(glace, 10);
+            sid.getInventaire().retirer(neige, 10);
+            sid.getInventaire().retirer(bois, 3);
+        } else if (!sid.getInventaire().aAssez(feu, 1)) {
+            System.out.println("Pas assez d'éclats de feu !");
+        } else if (!sid.getInventaire().aAssez(glace, 10)) {
+            System.out.println("Pas assez de glace !");
+        }
+          else if (!sid.getInventaire().aAssez(neige, 10)) {
+            System.out.println("Pas assez de neige !");
+        }
+        else {
+            System.out.println("Pas assez de bois !");
+        }
+    }
+
+
 
 }

@@ -172,6 +172,7 @@ public class Controller {
         tableCraftVue.getBoutonPioche().setOnAction(e -> tableCraft.crafterPioche());
         tableCraftVue.getBoutonDague().setOnAction(e -> tableCraft.crafterDague());
         tableCraftVue.getBoutonArc().setOnAction(e -> tableCraft.crafterArc());
+        tableCraftVue.getBoutonMarteau().setOnAction(e -> tableCraft.crafterMarteauDeFeu());
     }
 
 

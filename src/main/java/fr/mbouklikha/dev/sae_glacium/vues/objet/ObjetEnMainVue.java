@@ -1,7 +1,7 @@
 package fr.mbouklikha.dev.sae_glacium.vues.objet;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
-import fr.mbouklikha.dev.sae_glacium.modeles.objets.Objets;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Objets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;

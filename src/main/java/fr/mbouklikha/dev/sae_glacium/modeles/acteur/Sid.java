@@ -2,13 +2,12 @@ package fr.mbouklikha.dev.sae_glacium.modeles.acteur;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.Hitbox;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
-import fr.mbouklikha.dev.sae_glacium.modeles.objets.Objets;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Objets;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.*;
 import javafx.scene.input.KeyCode;
 
-import java.util.ArrayList;
 import java.util.Set;
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.Inventaire;
 

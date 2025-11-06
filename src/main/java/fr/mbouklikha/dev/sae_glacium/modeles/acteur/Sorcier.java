@@ -2,7 +2,7 @@ package fr.mbouklikha.dev.sae_glacium.modeles.acteur;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.Hitbox;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
-import fr.mbouklikha.dev.sae_glacium.modeles.objets.EclatFeu;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.EclatFeu;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;

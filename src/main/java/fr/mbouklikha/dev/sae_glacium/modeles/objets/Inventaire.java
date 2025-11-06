@@ -1,5 +1,6 @@
 package fr.mbouklikha.dev.sae_glacium.modeles.objets;
 
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Objets;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;

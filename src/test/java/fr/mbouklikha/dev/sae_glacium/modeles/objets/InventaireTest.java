@@ -2,6 +2,9 @@ package fr.mbouklikha.dev.sae_glacium.modeles.objets;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Objets;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Bois;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Glace;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

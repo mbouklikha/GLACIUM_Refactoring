@@ -2,6 +2,7 @@ package fr.mbouklikha.dev.sae_glacium.modeles.objets;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Terrain;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Arme;
 
 public class MarteauDeFeu extends Arme {
 

@@ -2,6 +2,9 @@ package fr.mbouklikha.dev.sae_glacium.modeles.objets;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Objets;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Bois;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Glace;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +22,7 @@ class InventaireTest {
     public void setUp() throws Exception  {
         // Initialisation avant chaque test : inventaire vide, environnement et joueur Sid
         inventaire = new Inventaire();
-        env = new Environnement(992, 576);
+        env = Environnement.getInstance();
         sid = new Sid(env);
 
         // Création de deux objets test : glace et bois

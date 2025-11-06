@@ -2,13 +2,12 @@ package fr.mbouklikha.dev.sae_glacium.modeles.acteur;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.Hitbox;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
-import fr.mbouklikha.dev.sae_glacium.modeles.objets.Objets;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Objets;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.*;
 import javafx.scene.input.KeyCode;
 
-import java.util.ArrayList;
 import java.util.Set;
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.Inventaire;
 
@@ -26,12 +25,10 @@ public class Sid extends Acteur {
     private Inventaire inventaire;
     protected int finRalenti;
     private Hitbox hitbox;
-    private Environnement environnement;
 
 
-    public Sid(Environnement env) {
-        super("Sid", 50, 100, 100, env); // position initiale (100,100)
-        this.environnement = env;
+    public Sid() {
+        super("Sid", 50, 100, 100); // position initiale (100,100)
         this.hitbox = new Hitbox(getX(), getY(), 25, 55); // taille du perso
         this.inventaire = new Inventaire();
         this.strategieDeplacement = new DeplacementJoueur();
@@ -55,7 +52,7 @@ public class Sid extends Acteur {
     }
 
     public Environnement getEnvironnement() {
-        return environnement;
+        return Environnement.getInstance();
     }
 
 
@@ -164,7 +161,7 @@ public class Sid extends Acteur {
         }
 
         hitbox.setPosition(getX(), newY);
-        if (!collisionAvecBlocs(hitbox, environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitbox, Environnement.getInstance().getTerrain().getHitboxBlocsSolides())) {
             setY(newY);
             hitbox.setPosition(getX(), newY);
         } else {

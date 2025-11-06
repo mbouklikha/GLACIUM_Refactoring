@@ -1,16 +1,24 @@
 package fr.mbouklikha.dev.sae_glacium.modeles.objets;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Arc;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Dague;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.outils.Pioche;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.*;
 
 public class TableCraft {
 
     private Inventaire inventaire;
     private Sid sid;
 
+
     public TableCraft(Inventaire inventaire, Sid sid) {
         this.inventaire = inventaire;
         this.sid = sid;
     }
+
+    FabriqueSimpleRessource fabrique = new FabriqueSimpleRessource();
+    Forge forge = new Forge(fabrique, inventaire, sid);
 
 
     /*
@@ -19,8 +27,8 @@ public class TableCraft {
      * et les ressources sont retirées.
     */
     public void crafterPioche() {
-        Glace glace = new Glace(sid.getEnvironnement().getTerrain(),sid.getInventaire(),sid);
-        Bois bois = new Bois(sid.getEnvironnement().getTerrain(),sid.getInventaire(),sid);
+        Ressource glace = forge.fabriquerRessource("glace");
+        Ressource bois = forge.fabriquerRessource("bois");
 
         if (sid.getInventaire().aAssez(glace,3) && sid.getInventaire().aAssez(bois,2)) {
             System.out.println("On peut crafter !");
@@ -41,8 +49,8 @@ public class TableCraft {
      * et les ressources sont retirées.
     */
     public void crafterDague() {
-        Glace glace = new Glace(sid.getEnvironnement().getTerrain(),sid.getInventaire(),sid);
-        Neige neige = new Neige(sid.getEnvironnement().getTerrain(),sid.getInventaire(),sid);
+        Ressource glace = forge.fabriquerRessource("glace");
+        Ressource neige = forge.fabriquerRessource("glace");
 
         if (sid.getInventaire().aAssez(glace,3) && sid.getInventaire().aAssez(neige,2)) {
             System.out.println("On peut crafter !");
@@ -64,9 +72,9 @@ public class TableCraft {
      * et les ressources sont retirées.
     */
     public void crafterArc() {
-        EclatFeu feu = new EclatFeu(sid.getEnvironnement().getTerrain(),sid.getInventaire(),sid);
-        Bois bois = new Bois(sid.getEnvironnement().getTerrain(),sid.getInventaire(),sid);
-        Glace glace = new Glace(sid.getEnvironnement().getTerrain(),sid.getInventaire(),sid);
+        Ressource feu = forge.fabriquerRessource("eclatFeu");
+        Ressource bois = forge.fabriquerRessource("bois");
+        Ressource glace = forge.fabriquerRessource("glace");
 
         if (sid.getInventaire().aAssez(feu,1) && sid.getInventaire().aAssez(bois,3) && sid.getInventaire().aAssez(glace,5)) {
             System.out.println("On peut crafter !");

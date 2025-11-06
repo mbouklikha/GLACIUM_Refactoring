@@ -4,8 +4,11 @@ import fr.mbouklikha.dev.sae_glacium.modeles.acteur.*;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.*;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Bois;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Glace;
 import fr.mbouklikha.dev.sae_glacium.vues.PointsDeVieVue;
 import fr.mbouklikha.dev.sae_glacium.vues.SourisVue;
+import fr.mbouklikha.dev.sae_glacium.vues.acteur.GlaciorVue;
 import fr.mbouklikha.dev.sae_glacium.vues.acteur.SidVue;
 import fr.mbouklikha.dev.sae_glacium.vues.acteur.SorcierVue;
 import fr.mbouklikha.dev.sae_glacium.vues.acteur.YetiVue;
@@ -16,7 +19,6 @@ import fr.mbouklikha.dev.sae_glacium.vues.objet.ObjetEnMainVue;
 import fr.mbouklikha.dev.sae_glacium.vues.objet.TableCraftVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
@@ -56,6 +58,9 @@ public class Controller {
 
     private Sorcier sorcier;
     private SorcierVue sorcierVue;
+
+    private Glacior glacior;
+    private GlaciorVue glaciorVue;
 
     private Souris souris;
     private final int TAILLE_BLOC = 32;
@@ -115,7 +120,7 @@ public class Controller {
         this.env = Environnement.getInstance();
         TerrainVue terrainVue = new TerrainVue(tilePane);
 
-        sid = new Sid(env);
+        sid = new Sid();
 
         sidVue = new SidVue(sid, zoneJeu);
         souris = new Souris(sid, env.getTerrain(), terrainVue, tilePane);
@@ -123,25 +128,34 @@ public class Controller {
         pdvVue = new PointsDeVieVue(zoneJeu, sid);
 
 
-        yeti = new Yeti(env, sid);
+        yeti = new Yeti(sid);
         yetiVue = new YetiVue(yeti, zoneJeu);
 
         // Création du Sorcier et sa vue
-        sorcier = new Sorcier(env, sid);
+        sorcier = new Sorcier(sid);
         sorcierVue = new SorcierVue(sorcier, zoneJeu);
+
+        glacior = new Glacior(sid);
+        glaciorVue = new GlaciorVue(glacior, zoneJeu);
+
+
 
 
         // Ajoute les acteurs dans l'environnement
         env.ajouterActeur(sid);
         env.ajouterActeur(yeti);
         env.ajouterActeur(sorcier);
+        env.ajouterActeur(glacior);
     }
 
 
     public void initialiserInventaire(){
+        FabriqueSimpleRessource fabrique = new FabriqueSimpleRessource();
+        Forge forge = new Forge(fabrique, sid.getInventaire(), sid);
+
         Inventaire inv = sid.getInventaire();
-        sid.getInventaire().ajouter(new Glace(env.getTerrain(), inv, sid), 3);
-        sid.getInventaire().ajouter(new Bois(env.getTerrain(), inv, sid), 8);
+        sid.getInventaire().ajouter(forge.fabriquerRessource("glace"), 3);
+        sid.getInventaire().ajouter(forge.fabriquerRessource("bois"), 8);
 
 
         inventaireVue = new InventaireVue(conteneurInventaire, sid);

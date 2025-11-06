@@ -9,7 +9,7 @@ import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
 import java.util.Set;
 
-public class Yeti extends Acteur {
+public class Glacior extends Acteur {
 
     private final StringProperty direction = new SimpleStringProperty("immobile");
     private static final double GRAVITE = 0.4;
@@ -19,18 +19,18 @@ public class Yeti extends Acteur {
     private int compteurDegats = 0;
 
     private Sid sid;
-    private final Hitbox hitboxYeti;
+    private final Hitbox hitboxGlacior;
 
-    public Yeti (Sid sid) {
-        super("Yeti", 100, 800, 350);
+    public Glacior (Sid sid) {
+        super("Yeti", 120, 500, 350);
         this.sid = sid;
-        this.hitboxYeti = new Hitbox(getX(), getY(), 60, 60);
+        this.hitboxGlacior = new Hitbox(getX(), getY(), 66, 64);
         this.strategieDeplacement = new DeplacementIA();
     }
 
     @Override
     public Hitbox getHitbox() {
-        return hitboxYeti;
+        return hitboxGlacior;
     }
 
     public StringProperty getDirection() {
@@ -70,8 +70,6 @@ public class Yeti extends Acteur {
 
         if (Math.abs(dy) > 50) {
             resterImmobile();
-        } else if (Math.abs(dx) <= 20) {
-            attaquer(dx);
         } else if (Math.abs(dx) <= 180) {
             seDeplacerVersSid(dx);
         } else {
@@ -102,8 +100,8 @@ public class Yeti extends Acteur {
         frappeEnCours = false;
         int deplacementX = (dx > 0 ? VITESSE_X : -VITESSE_X);
 
-        hitboxYeti.setPosition(getX() + deplacementX, getY());
-        boolean collision = collisionAvecBlocs(hitboxYeti, Environnement.getInstance().getTerrain().getHitboxBlocsSolides());
+        hitboxGlacior.setPosition(getX() + deplacementX, getY());
+        boolean collision = collisionAvecBlocs(hitboxGlacior, Environnement.getInstance().getTerrain().getHitboxBlocsSolides());
 
         if (!collision) {
             setX(getX() + deplacementX);
@@ -132,7 +130,7 @@ public class Yeti extends Acteur {
     /*
      * Applique la gravité au Yeti en mettant à jour sa position verticale,
      * tout en gérant les collisions avec le terrain.
-    */
+     */
     @Override
     public void appliquerGravite(int[][] map, int tailleBloc) {
         vitesseY += GRAVITE;
@@ -143,16 +141,16 @@ public class Yeti extends Acteur {
 
         if (caseY >= map.length || caseX >= map[0].length || caseX < 0) {
             setY(newY);
-            hitboxYeti.setPosition(getX(), newY);
+            hitboxGlacior.setPosition(getX(), newY);
         } else {
-            hitboxYeti.setPosition(getX(), newY);
-            if (!collisionAvecBlocs(hitboxYeti, Environnement.getInstance().getTerrain().getHitboxBlocsSolides())) {
+            hitboxGlacior.setPosition(getX(), newY);
+            if (!collisionAvecBlocs(hitboxGlacior, Environnement.getInstance().getTerrain().getHitboxBlocsSolides())) {
                 setY(newY);
             } else {
                 vitesseY = 0;
             }
         }
-        hitboxYeti.setPosition(getX(), getY());
+        hitboxGlacior.setPosition(getX(), getY());
     }
 
 

@@ -14,18 +14,16 @@ public abstract class Acteur {
 
     private String nom;
     protected IntegerProperty pv;
-    private Environnement environnement;
     private IntegerProperty x, y;
     protected boolean enSaut = false;
 
     protected StrategieDeplacement strategieDeplacement;
 
-    public Acteur(String nom, int pv, int x, int y, Environnement environnement) {
+    public Acteur(String nom, int pv, int x, int y) {
         this.nom = nom;
         this.x = new SimpleIntegerProperty(x);
         this.y = new SimpleIntegerProperty(y);
         this.pv= new SimpleIntegerProperty(pv);
-        this.environnement = environnement;
     }
 
     /*public Acteur(String nom, int pv, Environnement environnement) {
@@ -37,7 +35,7 @@ public abstract class Acteur {
 
 
     public ArrayList<Acteur> getActeursAutour() {
-        return environnement.getActeurs();
+        return Environnement.getInstance().getActeurs();
     }
 
     public String getNom(){
@@ -76,16 +74,14 @@ public abstract class Acteur {
         y.setValue(n);
     }
 
-    public Environnement getEnvironnement(){
-        return this.environnement;
-    }
-
 
 
     public void decrementerPv(int n) {
         this.pv.set(getPv() - n);
     }
 
+
+    // Normalement pour les soins du pv
     public void incrementerPv(int n) {
         this.pv.set(getPv() + n);
     }

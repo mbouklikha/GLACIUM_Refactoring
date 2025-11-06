@@ -1,7 +1,9 @@
-package fr.mbouklikha.dev.sae_glacium.modeles.objets;
+package fr.mbouklikha.dev.sae_glacium.modeles.objets.outils;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Terrain;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.Inventaire;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.Item;
 
 
 public abstract class Objets {

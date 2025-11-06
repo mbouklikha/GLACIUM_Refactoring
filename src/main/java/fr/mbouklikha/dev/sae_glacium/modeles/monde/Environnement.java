@@ -12,7 +12,7 @@ public class Environnement {
     private ArrayList<Acteur> acteurs;
     private Terrain terrain;
 
-    public Environnement(int width, int height) {
+    private Environnement(int width, int height) {
         this.width = width;
         this.height = height;
         this.acteurs = new ArrayList<>();

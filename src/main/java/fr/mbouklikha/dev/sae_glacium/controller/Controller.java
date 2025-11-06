@@ -4,6 +4,8 @@ import fr.mbouklikha.dev.sae_glacium.modeles.acteur.*;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.*;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Bois;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Glace;
 import fr.mbouklikha.dev.sae_glacium.vues.PointsDeVieVue;
 import fr.mbouklikha.dev.sae_glacium.vues.SourisVue;
 import fr.mbouklikha.dev.sae_glacium.vues.acteur.GlaciorVue;
@@ -17,7 +19,6 @@ import fr.mbouklikha.dev.sae_glacium.vues.objet.ObjetEnMainVue;
 import fr.mbouklikha.dev.sae_glacium.vues.objet.TableCraftVue;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
@@ -149,9 +150,12 @@ public class Controller {
 
 
     public void initialiserInventaire(){
+        FabriqueSimpleRessource fabrique = new FabriqueSimpleRessource();
+        Forge forge = new Forge(fabrique, sid.getInventaire(), sid);
+
         Inventaire inv = sid.getInventaire();
-        sid.getInventaire().ajouter(new Glace(env.getTerrain(), inv, sid), 3);
-        sid.getInventaire().ajouter(new Bois(env.getTerrain(), inv, sid), 8);
+        sid.getInventaire().ajouter(forge.fabriquerRessource("glace"), 3);
+        sid.getInventaire().ajouter(forge.fabriquerRessource("bois"), 8);
 
         inventaireVue = new InventaireVue(conteneurInventaire, sid);
         inventaireVue.initialiserCases(inv);

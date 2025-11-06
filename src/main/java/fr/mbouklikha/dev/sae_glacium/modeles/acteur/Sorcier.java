@@ -2,8 +2,10 @@ package fr.mbouklikha.dev.sae_glacium.modeles.acteur;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.Hitbox;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
-import fr.mbouklikha.dev.sae_glacium.modeles.objets.EclatFeu;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.FabriqueSimpleRessource;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.Forge;
 import fr.mbouklikha.dev.sae_glacium.modeles.objets.PotionSoin;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Ressource;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;
@@ -21,11 +23,9 @@ public class Sorcier extends Acteur {
     private final StringProperty orientation = new SimpleStringProperty("droite");    // "gauche" ou "droite"
     private boolean occupe = true;
     private Hitbox hitboxSorcier;
-    private Environnement environnement;
 
-    public Sorcier(Environnement env, Sid sid) {
-        super("Sorcier", 10, 995, 250, env);
-        this.environnement = env;
+    public Sorcier(Sid sid) {
+        super("Sorcier", 10, 995, 250);
         this.sid = sid;
         this.hitboxSorcier = new Hitbox(getX(), getY(), 45, 62);
         this.strategieDeplacement = new DeplacementIA();
@@ -43,8 +43,10 @@ public class Sorcier extends Acteur {
 
     @Override
     public void gererDeplacement(Set<KeyCode> touches) {
+        FabriqueSimpleRessource fabrique = new FabriqueSimpleRessource();
+        Forge forge = new Forge(fabrique, sid.getInventaire(), sid);
         int dx = sid.getX() - getX();
-        EclatFeu feu = new EclatFeu(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
+        Ressource feu = forge.fabriquerRessource("eclatFeu");
         PotionSoin potionSoin = new PotionSoin(sid.getEnvironnement().getTerrain(), sid.getInventaire(), sid);
 
         // Orientation graphique
@@ -99,7 +101,7 @@ public class Sorcier extends Acteur {
         }
 
         hitboxSorcier.setPosition(getX(), newY);
-        if (!collisionAvecBlocs(hitboxSorcier, environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitboxSorcier, Environnement.getInstance().getTerrain().getHitboxBlocsSolides())) {
             setY(newY);
             hitboxSorcier.setPosition(getX(), newY);
         } else {

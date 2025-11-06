@@ -51,15 +51,13 @@ public class Inventaire {
     */
     public void retirerUnItem(Objets objetARetirer) {
         Item item = trouverItem(objetARetirer);
-        if(item != null){
-            int nouvelleQuantite = item.getQuantite().get() - 1;
-            if (item.getQuantite().get() <= 0) {
+        if(item != null) {
+            item.getQuantite().set(item.getQuantite().get() - 1);
+        }   if (item.getQuantite().get() <= 0) {
             item.supprimer(items);
-            } else {
-                item.getQuantite().set(nouvelleQuantite);
             }
-        }
     }
+
 
 
 

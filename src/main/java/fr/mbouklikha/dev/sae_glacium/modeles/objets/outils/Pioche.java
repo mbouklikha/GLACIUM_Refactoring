@@ -1,11 +1,14 @@
-package fr.mbouklikha.dev.sae_glacium.modeles.objets;
+package fr.mbouklikha.dev.sae_glacium.modeles.objets.outils;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Terrain;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Glace;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.Inventaire;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.ressources.Neige;
 
 public class Pioche extends Outil {
 
-    public Pioche(Terrain terrain, Inventaire inventaire,Sid sid){
+    public Pioche(Terrain terrain, Inventaire inventaire, Sid sid){
         super("pioche", terrain, inventaire, sid);
     }
 

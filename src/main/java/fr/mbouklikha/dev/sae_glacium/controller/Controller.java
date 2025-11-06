@@ -26,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -136,8 +137,8 @@ public class Controller {
         sorcierVue = new SorcierVue(sorcier, zoneJeu);
 
         glacior = new Glacior(sid);
+        glacior.initialiserStrategieComposite();
         glaciorVue = new GlaciorVue(glacior, zoneJeu);
-
 
 
 

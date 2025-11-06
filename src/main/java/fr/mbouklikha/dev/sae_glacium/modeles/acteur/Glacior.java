@@ -2,6 +2,10 @@ package fr.mbouklikha.dev.sae_glacium.modeles.acteur;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.Hitbox;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Environnement;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.AttaqueComposite;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.AttaqueDistance;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.AttaqueMelee;
+import fr.mbouklikha.dev.sae_glacium.modeles.objets.StrategieAttaque;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;
@@ -17,6 +21,7 @@ public class Glacior extends Acteur {
     private double vitesseY = 0;
     private boolean frappeEnCours = false;
     private int compteurDegats = 0;
+    private StrategieAttaque strategieAttaque;
 
     private Sid sid;
     private final Hitbox hitboxGlacior;
@@ -39,6 +44,10 @@ public class Glacior extends Acteur {
 
     public void setDirection(String direction) {
         this.direction.set(direction);
+    }
+
+    public void setStrategieAttaque(StrategieAttaque strategieAttaque) {
+        this.strategieAttaque = strategieAttaque;
     }
 
 
@@ -72,6 +81,7 @@ public class Glacior extends Acteur {
             resterImmobile();
         } else if (Math.abs(dx) <= 180) {
             seDeplacerVersSid(dx);
+            attaquer(dx);
         } else {
             resterImmobile();
         }
@@ -83,6 +93,12 @@ public class Glacior extends Acteur {
         frappeEnCours = true;
         setDirection(dx > 0 ? "droite" : "gauche");
         sid.setEstRalenti(true);
+
+        if (strategieAttaque != null) {
+            // On attaque Sid avec la stratégie composite
+            strategieAttaque.attaquer(sid, sid.getX() / 32, sid.getY() / 32);
+        }
+
 
         if (compteurDegats == 0) {
             sid.decrementerPv(5);
@@ -119,6 +135,17 @@ public class Glacior extends Acteur {
         frappeEnCours = false;
         setDirection("immobile");
     }
+
+    public void initialiserStrategieComposite() {
+        AttaqueMelee attaqueMelee = new AttaqueMelee(10, 128);
+        AttaqueDistance attaqueDistance = new AttaqueDistance(5, 256);
+        ArrayList<StrategieAttaque> strategies = new ArrayList<>();
+        strategies.add(attaqueMelee);
+        strategies.add(attaqueDistance);
+        AttaqueComposite attaqueComposite = new AttaqueComposite(strategies);
+        this.setStrategieAttaque(attaqueComposite);
+    }
+
 
 
 

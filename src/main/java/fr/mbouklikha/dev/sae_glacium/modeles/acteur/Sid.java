@@ -26,12 +26,10 @@ public class Sid extends Acteur {
     private Inventaire inventaire;
     protected int finRalenti;
     private Hitbox hitbox;
-    private Environnement environnement;
 
 
-    public Sid(Environnement env) {
-        super("Sid", 50, 100, 100, env); // position initiale (100,100)
-        this.environnement = env;
+    public Sid() {
+        super("Sid", 50, 100, 100); // position initiale (100,100)
         this.hitbox = new Hitbox(getX(), getY(), 25, 55); // taille du perso
         this.inventaire = new Inventaire();
         this.strategieDeplacement = new DeplacementJoueur();
@@ -55,7 +53,7 @@ public class Sid extends Acteur {
     }
 
     public Environnement getEnvironnement() {
-        return environnement;
+        return Environnement.getInstance();
     }
 
 
@@ -164,7 +162,7 @@ public class Sid extends Acteur {
         }
 
         hitbox.setPosition(getX(), newY);
-        if (!collisionAvecBlocs(hitbox, environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitbox, Environnement.getInstance().getTerrain().getHitboxBlocsSolides())) {
             setY(newY);
             hitbox.setPosition(getX(), newY);
         } else {

@@ -7,7 +7,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.input.KeyCode;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 public class Sorcier extends Acteur {
@@ -20,11 +19,9 @@ public class Sorcier extends Acteur {
     private final StringProperty orientation = new SimpleStringProperty("droite");    // "gauche" ou "droite"
     private boolean occupe = true;
     private Hitbox hitboxSorcier;
-    private Environnement environnement;
 
-    public Sorcier(Environnement env, Sid sid) {
-        super("Sorcier", 10, 995, 250, env);
-        this.environnement = env;
+    public Sorcier(Sid sid) {
+        super("Sorcier", 10, 995, 250);
         this.sid = sid;
         this.hitboxSorcier = new Hitbox(getX(), getY(), 45, 62);
         this.strategieDeplacement = new DeplacementIA();
@@ -94,7 +91,7 @@ public class Sorcier extends Acteur {
         }
 
         hitboxSorcier.setPosition(getX(), newY);
-        if (!collisionAvecBlocs(hitboxSorcier, environnement.getTerrain().getHitboxBlocsSolides())) {
+        if (!collisionAvecBlocs(hitboxSorcier, Environnement.getInstance().getTerrain().getHitboxBlocsSolides())) {
             setY(newY);
             hitboxSorcier.setPosition(getX(), newY);
         } else {

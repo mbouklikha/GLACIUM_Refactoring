@@ -19,13 +19,11 @@ public class Yeti extends Acteur {
     private int compteurDegats = 0;
 
     private Sid sid;
-    private final Environnement environnement;
     private final Hitbox hitboxYeti;
 
-    public Yeti(Environnement env, Sid sid) {
-        super("Yeti", 100, 800, 350, env);
+    public Yeti (Sid sid) {
+        super("Yeti", 100, 800, 350);
         this.sid = sid;
-        this.environnement = env;
         this.hitboxYeti = new Hitbox(getX(), getY(), 60, 60);
         this.strategieDeplacement = new DeplacementIA();
     }
@@ -105,7 +103,7 @@ public class Yeti extends Acteur {
         int deplacementX = (dx > 0 ? VITESSE_X : -VITESSE_X);
 
         hitboxYeti.setPosition(getX() + deplacementX, getY());
-        boolean collision = collisionAvecBlocs(hitboxYeti, environnement.getTerrain().getHitboxBlocsSolides());
+        boolean collision = collisionAvecBlocs(hitboxYeti, Environnement.getInstance().getTerrain().getHitboxBlocsSolides());
 
         if (!collision) {
             setX(getX() + deplacementX);
@@ -148,7 +146,7 @@ public class Yeti extends Acteur {
             hitboxYeti.setPosition(getX(), newY);
         } else {
             hitboxYeti.setPosition(getX(), newY);
-            if (!collisionAvecBlocs(hitboxYeti, environnement.getTerrain().getHitboxBlocsSolides())) {
+            if (!collisionAvecBlocs(hitboxYeti, Environnement.getInstance().getTerrain().getHitboxBlocsSolides())) {
                 setY(newY);
             } else {
                 vitesseY = 0;

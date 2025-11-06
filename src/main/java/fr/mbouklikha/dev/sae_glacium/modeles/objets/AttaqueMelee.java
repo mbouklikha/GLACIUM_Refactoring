@@ -1,6 +1,7 @@
 package fr.mbouklikha.dev.sae_glacium.modeles.objets;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Acteur;
+import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Glacior;
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Yeti;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Terrain;
@@ -31,7 +32,11 @@ public class AttaqueMelee implements StrategieAttaque {
             for (Acteur a : sid.getActeursAutour()) {
                 if (a instanceof Yeti yeti && yeti.getHitbox().collisionAvec(sid.getHitbox())) {
                     yeti.decrementerPv(degats);
-                    System.out.println("Attaque de mélée : -" + degats + " PV !");
+                    System.out.println("Attaque de mélée yeti : -" + degats + " PV !");
+                }
+                else if (a instanceof Glacior glacior && glacior.getHitbox().collisionAvec(sid.getHitbox())) {
+                    glacior.decrementerPv(degats);
+                    System.out.println("Attaque de mélée glacior : -" + degats + " PV !");
                 }
             }
         }

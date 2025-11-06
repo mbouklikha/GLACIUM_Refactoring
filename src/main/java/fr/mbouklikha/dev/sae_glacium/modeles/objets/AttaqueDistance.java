@@ -1,6 +1,7 @@
 package fr.mbouklikha.dev.sae_glacium.modeles.objets;
 
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Acteur;
+import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Glacior;
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Yeti;
 import fr.mbouklikha.dev.sae_glacium.modeles.acteur.Sid;
 import fr.mbouklikha.dev.sae_glacium.modeles.monde.Terrain;
@@ -31,7 +32,11 @@ public class AttaqueDistance implements StrategieAttaque {
             for (Acteur a : sid.getActeursAutour()) {
                 if (a instanceof Yeti yeti && yeti.getHitbox().contientPoint(sourisX, sourisY)) {
                     yeti.decrementerPv(degats);
-                    System.out.println("Attaque à distance : -" + degats + " PV !");
+                    System.out.println("Attaque à distance yeti : -" + degats + " PV !");
+                }
+                else if (a instanceof Glacior glacior && glacior.getHitbox().contientPoint(sourisX, sourisY)) {
+                    glacior.decrementerPv(degats);
+                    System.out.println("Attaque à distance glacior : -" + degats + " PV !");
                 }
             }
         }

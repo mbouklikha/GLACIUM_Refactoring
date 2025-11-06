@@ -79,10 +79,10 @@ public class GlaciorVue {
         if (glacior.isFrappeEnCours()) {
             switch (glacior.getDirection().get()) {
                 case "droite":
-                    imageView.setImage(imageBase);
+                    imageView.setImage(imageDroite);
                     break;
                 case "gauche":
-                    imageView.setImage(imageBase);
+                    imageView.setImage(imageGauche);
                     break;
                 default:
                     imageView.setImage(imageBase);
